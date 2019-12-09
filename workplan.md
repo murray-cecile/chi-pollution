@@ -15,8 +15,9 @@
     - what is the schema for this table?
 - air_pollution: holds cumulative air pollution (?) by node for past X time period
     - what is the schema for this table?
-- complaints: holds counts of complaints by closest node
-    - need to create an HBase table for this
+- DONE complaints: key is node, holds counts of complaints by type
+- DONE nodes: just map the node_id to an address
+
 
 ### Speed layer
 - need to write Python script to query API and put results in Kafka

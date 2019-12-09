@@ -2,7 +2,6 @@
 
 # can you script pulling a git repo?
 
-
 # get the data
 sh scripts/ingest_aot.sh
 sh scripts/ingest_complaints.sh
@@ -19,11 +18,22 @@ hdfs dfs -put aot_data/chicago-2019-09/nodes.csv /inputs/cmmurray/nodes
 hive -f scripts/hive_sensor.hql
 hive -f scripts/hive_nodes.hql
 
-# SHOULD I BE USING SPARK/SCALA, PROBABLY...
+# NEED TO CALL SCALA SCRIPT FROM THE COMMAND LINE
 spark-shell --conf spark.hadoop.metastore.catalog.default=hive
+# CALL join_complaints_nodes.scala
+# CALL aot scala script
 
+#========================#
+# CREATE SERVING LAYER
+#========================#
 
-# create HBASE tables
+# create HBase tables
 hbase shell
-create  'cmmurray_hbase_node_complaints', 'complaints'
+create 'cmmurray_hbase_node_names', 'info'
+create 'cmmurray_hbase_node_complaints', 'complaints'
+# create AOT hbase table
 exit
+
+# move data from Hive into Hbase
+hive -f scripts/create_node_names_hbase.hql
+hive -f scripts/create_complaints_hbase.hql
