@@ -1,8 +1,8 @@
 -- create ORC table to hold all of the sensor data
 
 -- first, map CSV data into Hive
-create external table cmmurray_sensor_csv(
-  stamptime string,
+create external table cmmurray_sensor(
+  stamptime timestamp,
   node_id string,
   subsystem string,
   sensor string,

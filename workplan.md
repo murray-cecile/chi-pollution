@@ -1,16 +1,22 @@
 ## Workplan
 
 ### Batch layer
-- download all the CDPH complaints (ideally script this via API)
-    - script out the cleaning: convert complaint type to lowercase
-    - compute distance to nearest AoT node
-- download some/all of the AoT data
-- one table needs to be the AoT nodes + locations + "names/addresses"
+- download all the CDPH complaints
+    - (ideally script this via API)
+    - script out the cleaning in scala for intermediate table: 
+        - drop 0's & convert complaint type to lowercase
+        - compute distance to nearest AoT node (ideally would make this not a horrible cross join)
+- download and ingest the AoT data
+    - need to figure out what air pollution metric to use: N02 and O3 seem good
+- get table mapping AoT nodes + locations + "names/addresses"
 
 ### Serving layer
 - noise_pollution: holds cumulative noise pollution by node for past X time period
+    - what is the schema for this table?
 - air_pollution: holds cumulative air pollution (?) by node for past X time period
+    - what is the schema for this table?
 - complaints: holds counts of complaints by closest node
+    - need to create an HBase table for this
 
 ### Speed layer
 - need to write Python script to query API and put results in Kafka

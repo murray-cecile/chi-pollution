@@ -17,5 +17,5 @@ WITH SERDEPROPERTIES (
   "quoteChar"     = "\""
 )
 STORED AS TEXTFILE
-  location '/inputs/cmmurray/aot/nodes.csv'
+  location '/inputs/cmmurray/nodes'
 TBLPROPERTIES ("skip.header.line.count"="1");
