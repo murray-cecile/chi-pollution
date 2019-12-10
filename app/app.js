@@ -66,7 +66,7 @@ app.get('/node-selection.html',function (req, res) {
 
 	var template = filesystem.readFileSync("result.mustache").toString();
 	var html = mustache.render(template,  {
-	    node_name : get_node_location(),
+	    node_name : req.query["address"],
 	    avg_daily_noise : avg_daily_noise()
 	});
 	res.send(html);
