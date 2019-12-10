@@ -1,3 +1,7 @@
 # don't commit data files
 *.csv
 *.tar
+*.txt
+*.pdf
+*.R
+.DS_Store

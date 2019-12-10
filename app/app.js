@@ -31,11 +31,11 @@ app.get('/node-selection.html',function (req, res) {
 	// const route=req.query['origin'] + req.query['dest'];
 	
 	// fix this so client can get variable rows
-	const node = '001e06109401';
-	const get = new hbase.Get(node); 
+	const address = req.query["address"];
+	const get = new hbase.Get(address); 
 	// console.log('bar');
 	
-    client.get("cmmurray_hbase_node_names", get, function(err, row) {
+    client.get("cmmurray_hbase_master", get, function(err, row) {
 	// console.log('foo');
 	assert.ok(!err, `get returned an error: #{err}`);
 	if(!row){
@@ -46,7 +46,7 @@ app.get('/node-selection.html',function (req, res) {
 	console.log(row);
 
 	function get_node_id() {
-		var node_id = row.cols["in:node_id"].value;
+		var node_id = row.cols["info:node_id"].value;
 		if(node_id == "")
 		return " - ";
 		return(node_id)
@@ -63,14 +63,6 @@ app.get('/node-selection.html',function (req, res) {
 		return " - ";
 	    return (db_sum/db_ct/db_days).toFixed(1); /* One decimal place */
 	}
-
-	function get_node_location() {
-		var node_loc = row.cols["info:address"].value;
-		if(node_loc == "")
-		return " - ";
-		return(node_loc)
-	}
-
 
 	var template = filesystem.readFileSync("result.mustache").toString();
 	var html = mustache.render(template,  {
