@@ -53,19 +53,18 @@ app.get('/node-selection.html',function (req, res) {
 	const node_id = get_node_id();
 	console.log(node_id);
 	    
-	function avg_daily_noise() {
+	function avg_noise() {
 	    var db_sum = Number(BigIntBuffer.toBigIntBE(row.cols["db:db_sum"].value));
 		var db_ct = Number(BigIntBuffer.toBigIntBE(row.cols["db:db_ct"].value));
-		var db_day_ct = Number(BigIntBuffer.toBigIntBE(row.cols["db:day_ct"].value));
-	    if(db_ct == 0 | db_day_ct == 0)
+	    if(db_ct == 0)
 		return " - ";
-	    return (db_sum/db_ct/db_days).toFixed(1); /* One decimal place */
+	    return (db_sum/db_ct).toFixed(1); /* One decimal place */
 	}
 
 	var template = filesystem.readFileSync("result.mustache").toString();
 	var html = mustache.render(template,  {
 	    node_name : req.query["address"],
-	    avg_daily_noise : avg_daily_noise()
+	    avg_daily_noise : avg_noise()
 	});
 	res.send(html);
     });

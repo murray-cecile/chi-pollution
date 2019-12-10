@@ -25,7 +25,7 @@ TBLPROPERTIES ('hbase.table.name' = 'cmmurray_hbase_master');
 INSERT OVERWRITE TABLE cmmurray_hbase_master
 SELECT address,
     names.node_id,
-    db_sum ,
+    db_sum,
     db_count,
     db_max,
     air_pollution,
