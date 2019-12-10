@@ -27,26 +27,24 @@ app.use(express.static('public'));
 app.get('/node-selection.html',function (req, res) { 
 
 
+	// add drop down menu approach!
 	console.log(req.query["address"]);
 	// const route=req.query['origin'] + req.query['dest'];
 	
-	// fix this so client can get variable rows
 	const address = req.query["address"];
 	const get = new hbase.Get(address); 
-	// console.log('bar');
 	
     client.get("cmmurray_hbase_master", get, function(err, row) {
-	// console.log('foo');
 	assert.ok(!err, `get returned an error: #{err}`);
 	if(!row){
 	    res.send("<html><body>No such node in data</body></html>");
 	    return;
 	}
 
-	console.log(row);
+	// console.log(row);
 
 	function get_node_id() {
-		var node_id = row.cols["info:node_id"].value;
+		var node_id = row.cols["info:node_id"].value.toString();
 		if(node_id == "")
 		return " - ";
 		return(node_id)
@@ -58,8 +56,8 @@ app.get('/node-selection.html',function (req, res) {
 	function avg_daily_noise() {
 	    var db_sum = Number(BigIntBuffer.toBigIntBE(row.cols["db:db_sum"].value));
 		var db_ct = Number(BigIntBuffer.toBigIntBE(row.cols["db:db_ct"].value));
-		var db_days = Number(BigIntBuffer.toBigIntBE(row.cols["db:days"].value));
-	    if(db_ct == 0 | days == 0)
+		var db_day_ct = Number(BigIntBuffer.toBigIntBE(row.cols["db:day_ct"].value));
+	    if(db_ct == 0 | db_day_ct == 0)
 		return " - ";
 	    return (db_sum/db_ct/db_days).toFixed(1); /* One decimal place */
 	}
