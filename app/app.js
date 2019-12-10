@@ -23,11 +23,15 @@ client.on('error', function(err) {
 })
 
 app.use(express.static('public'));
-app.get('/delays.html',function (req, res) { // change the name of the webpage
+
+app.get('/node-selection.html',function (req, res) { 
+
+
+	console.log(req.query["address"]);
 	// const route=req.query['origin'] + req.query['dest'];
 	
 	// fix this so client can get variable rows
-	const node = '001e06115382';
+	const node = '001e06109401';
 	const get = new hbase.Get(node); 
 	// console.log('bar');
 	

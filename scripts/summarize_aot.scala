@@ -19,14 +19,13 @@ no2_sum.write.mode(SaveMode.Overwrite).saveAsTable("cmmurray_no2_sum")
 val noise_sum = spark.sql(
     """
     select node_id,
-    DAY(FROM_UNIXTIME(UNIX_TIMESTAMP(stamptime, 'yyyy/MM/dd HH:mm:ss'))) AS day,
     sum(value_hrf) as db_sum,
     count(value_hrf) as db_ct,
     max(value_hrf) as db_max
     from cmmurray_sensor_csv
     where sensor = "spv1840lr5h_b" and
-    value_hrf is not null
-    group by node_id, DAY(FROM_UNIXTIME(UNIX_TIMESTAMP(stamptime, 'yyyy/MM/dd HH:mm:ss')))
+    value_hrf IS NOT NULL
+    group by node_id
     """
 )
 
