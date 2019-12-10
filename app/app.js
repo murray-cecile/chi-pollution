@@ -26,21 +26,23 @@ app.use(express.static('public'));
 app.get('/delays.html',function (req, res) { // change the name of the webpage
 	// const route=req.query['origin'] + req.query['dest'];
 	
-	const get = new hbase.Get('1'); // fix this so client can get variable rows
+	// fix this so client can get variable rows
+	const node = '001e06115382';
+	const get = new hbase.Get(node); 
 	// console.log('bar');
 	
-    client.get("cmmurray_daily_noise", get, function(err, row) {
+    client.get("cmmurray_hbase_node_names", get, function(err, row) {
 	// console.log('foo');
 	assert.ok(!err, `get returned an error: #{err}`);
 	if(!row){
-	    res.send("<html><body>No such route in data</body></html>");
+	    res.send("<html><body>No such node in data</body></html>");
 	    return;
 	}
 
 	console.log(row);
 
 	function get_node_id() {
-		var node_id = row.cols["db:node_id"].value;
+		var node_id = row.cols["in:node_id"].value;
 		if(node_id == "")
 		return " - ";
 		return(node_id)

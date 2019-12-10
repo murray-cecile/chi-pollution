@@ -31,7 +31,7 @@ spark-shell --conf spark.hadoop.metastore.catalog.default=hive
 hbase shell
 create 'cmmurray_hbase_node_names', 'info'
 create 'cmmurray_hbase_node_complaints', 'complaints'
-create 'cmmurray_hbase_noisiest5', 'db'
+create 'cmmurray_hbase_noise', 'db'
 # TO DO: create air pollutant hbase table
 exit
 

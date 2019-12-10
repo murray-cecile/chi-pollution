@@ -2,20 +2,7 @@
 /* From http://www.sanwebe.com/2013/10/css-html-form-styles */
 .elegant-aero {
 /*	margin:0px;padding:0px;*/
-	box-shadow: 10px 10px 5px #888888;
 	border:1px solid #000000;
-	-moz-border-radius-bottomleft:9px;
-	-webkit-border-bottom-left-radius:9px;
-	border-bottom-left-radius:9px;
-	-moz-border-radius-bottomright:9px;
-	-webkit-border-bottom-right-radius:9px;
-	border-bottom-right-radius:9px;
-	-moz-border-radius-topright:9px;
-	-webkit-border-top-right-radius:9px;
-	border-top-right-radius:9px;
-	-moz-border-radius-topleft:9px;
-	-webkit-border-top-left-radius:9px;
-	border-top-left-radius:9px;
  }
 .elegant-aero h1 {
     font: 24px "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -55,7 +42,6 @@
     background: #FBFBFB;
     outline: 0;
     -webkit-box-shadow:inset 0px 1px 6px #ECF3F5;
-    box-shadow: inset 0px 1px 6px #ECF3F5;
     font: 200 12px/25px Arial, Helvetica, sans-serif;
     height: 30px;
     line-height:15px;
