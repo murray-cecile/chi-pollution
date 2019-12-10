@@ -1,4 +1,4 @@
-create external table if not exists cmmurray_hbase_node_names(
+create external table if not exists cmmurray_hbase_node_names (
     node_id string,
     address string
 )

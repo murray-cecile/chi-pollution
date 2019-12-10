@@ -3,12 +3,13 @@
 ### Batch layer
 - download all the CDPH complaints
     - (ideally script this via API)
-    - script out the cleaning in scala for intermediate table: 
+    - DONE: script out the cleaning in scala for intermediate table: 
         - drop 0's & convert complaint type to lowercase
         - compute distance to nearest AoT node (ideally would make this not a horrible cross join)
 - download and ingest the AoT data
-    - need to figure out what air pollution metric to use: N02 and O3 seem good
-- get table mapping AoT nodes + locations + "names/addresses"
+    - what to do about negative NO2 and H2S measurements?
+    - write some Scala to pull out average DB measurements
+- DONE: get table mapping AoT nodes + locations + "names/addresses"
 
 ### Serving layer
 - noise_pollution: holds cumulative noise pollution by node for past X time period
