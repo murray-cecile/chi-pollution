@@ -56,15 +56,17 @@ app.get('/node-selection.html',function (req, res) {
 	function avg_noise() {
 	    var db_sum = Number(BigIntBuffer.toBigIntBE(row.cols["db:db_sum"].value));
 		var db_ct = Number(BigIntBuffer.toBigIntBE(row.cols["db:db_ct"].value));
+		console.log(db_sum);
+		console.log(db_ct);
 	    if(db_ct == 0)
 		return " - ";
 	    return (db_sum/db_ct).toFixed(1); /* One decimal place */
 	}
 
-	var template = filesystem.readFileSync("result.mustache").toString();
+	var template = filesystem.readFileSync("noise-result.mustache").toString();
 	var html = mustache.render(template,  {
-	    node_name : req.query["address"],
-	    avg_daily_noise : avg_noise()
+		avg_daily_noise : avg_noise(),
+		num_noise_complaints: Number(BigIntBuffer.toBigIntBE(row.cols["complaints:noise_complaint"].value));
 	});
 	res.send(html);
     });
