@@ -27,5 +27,3 @@ WITH SERDEPROPERTIES (
 STORED AS TEXTFILE
   location '/inputs/cmmurray/complaints'
 TBLPROPERTIES ("skip.header.line.count"="1");
-
--- next standardize case of complaint types

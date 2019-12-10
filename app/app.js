@@ -9,7 +9,7 @@ const url = require('url');
 const hbase = require('hbase-rpc-client');
 const hostname = '127.0.0.1';
 const port = 3686;
-const BigIntBuffer = require('bigint-buffer');
+// const BigIntBuffer = require('bigint-buffer');
 
 
 /* Commented out lines are for running on our cluster */
@@ -43,19 +43,19 @@ app.get('/node-selection.html',function (req, res) {
 
 	// console.log(row);
 
-	function get_node_id() {
-		var node_id = row.cols["info:node_id"].value.toString();
-		if(node_id == "")
-		return " - ";
-		return(node_id)
-	}
+	// function get_node_id() {
+	// 	var node_id = row.cols["info:node_id"].value.toString();
+	// 	if(node_id == "")
+	// 	return " - ";
+	// 	return(node_id)
+	// }
 
-	const node_id = get_node_id();
-	console.log(node_id);
+	// const node_id = get_node_id();
+	// console.log(node_id);
 	    
 	function avg_noise() {
-	    var db_sum = Number(BigIntBuffer.toBigIntBE(row.cols["db:db_sum"].value));
-		var db_ct = Number(BigIntBuffer.toBigIntBE(row.cols["db:db_ct"].value));
+	    var db_sum = readDoubleBE(row.cols["db:db_sum"].value); 
+		var db_ct = readIntBE(row.cols["db:db_ct"].value);
 		console.log(db_sum);
 		console.log(db_ct);
 	    if(db_ct == 0)
@@ -66,7 +66,9 @@ app.get('/node-selection.html',function (req, res) {
 	var template = filesystem.readFileSync("noise-result.mustache").toString();
 	var html = mustache.render(template,  {
 		avg_daily_noise : avg_noise(),
-		num_noise_complaints: Number(BigIntBuffer.toBigIntBE(row.cols["complaints:noise_complaint"].value))
+		num_noise_complaints: row.cols["complaints:noise_complaint"].value,
+		avg_aq : " - ",
+		air_pullution_orders: row.cols["complains:air_pollution"].value
 	});
 	res.send(html);
     });
