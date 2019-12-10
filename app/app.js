@@ -66,7 +66,7 @@ app.get('/node-selection.html',function (req, res) {
 	var template = filesystem.readFileSync("noise-result.mustache").toString();
 	var html = mustache.render(template,  {
 		avg_daily_noise : avg_noise(),
-		num_noise_complaints: Number(BigIntBuffer.toBigIntBE(row.cols["complaints:noise_complaint"].value));
+		num_noise_complaints: Number(BigIntBuffer.toBigIntBE(row.cols["complaints:noise_complaint"].value))
 	});
 	res.send(html);
     });
