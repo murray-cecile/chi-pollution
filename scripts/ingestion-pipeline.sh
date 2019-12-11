@@ -63,3 +63,9 @@ pip install -r requirements.txt
 
 # consume messages from another terminal 
 # /usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --bootstrap-server mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:6667 --topic cmmurray --from-beginning
+
+# moving jar file manually right now, should zip the thing later probably
+gcloud compute scp aot-speed-layer/target/uber-aot-speed-layer-0.0.1-SNAPSHOT.jar cmmurray@mpcs53014c10-m-6-20191016152730:chi-pollution
+
+# test consumption from Kafka
+spark-submit --class StreamNoise uber-aot-speed-layer-0.0.1-SNAPSHOT.jar mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:6667

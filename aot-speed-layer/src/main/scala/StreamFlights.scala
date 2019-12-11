@@ -19,11 +19,11 @@ object StreamNoise {
   val hbaseConf: Configuration = HBaseConfiguration.create()
 
   // Use the following two lines if you are building for the cluster 
-   hbaseConf.set("hbase.zookeeper.quorum","class-m-0-20181017030211.us-central1-a.c.mpcs53013-2018.internal")
+   hbaseConf.set("hbase.zookeeper.quorum", "mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal")
    hbaseConf.set("zookeeper.znode.parent", "/hbase-unsecure")
   
   // Use the following line if you are building for the VM
-  hbaseConf.set("hbase.zookeeper.quorum", "localhost")
+  //  hbaseConf.set("hbase.zookeeper.quorum", "localhost")
   
   val hbaseConnection = ConnectionFactory.createConnection(hbaseConf)
   val latestNoise = hbaseConnection.getTable(TableName.valueOf("latest_noise"))
