@@ -3,7 +3,7 @@ import requests
 from kafka import KafkaProducer
 
 AOT_API_ROOT = "https://api.arrayofthings.org/api/observations"
-KAFKA_HOST = "mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:2181"
+KAFKA_HOST = "mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:6667"
 KAFKA_TOPIC = "cmmurray"
 
 def define_request():
@@ -41,7 +41,7 @@ def parse_response(r):
         sensor = n['sensor_path']
         value = n['value']
 
-        parsed.append(node_vsn, timestamp, sensor, value)
+        parsed.append([node_vsn, timestamp, sensor, value])
     
     return parsed
 
@@ -76,12 +76,13 @@ def send_message(producer, message):
     '''
 
     try:
-        producer.instance.send(KAFKA_TOPIC, key=time.time(), value = message)
+        print(message)
+        producer.send(KAFKA_TOPIC, key="key", value = message)
         producer.flush()
         print("Successful publish")
     except Exception as ex:
         print("Exception publishing message")
-        print(str(ex))
+        print(ex)
 
 
 if __name__ == "__main__":
@@ -90,6 +91,9 @@ if __name__ == "__main__":
     parsed = parse_response(r)
 
     producer = create_kafka_producer()
-    for p in parsed:
-        send_message(producer, p)
+    producer.send('cmmurray', b'please work')
+    producer.flush()
+    # producer.send(KAFKA_TOPIC, key=b'foobar', value=b'test')
+    #for p in parsed:
+    #    send_message(producer, p)
 
