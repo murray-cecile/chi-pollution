@@ -1,10 +1,11 @@
 # don't commit data files
 *.csv
 *.tar
-*.txt
 *.pdf
 *.R
 .DS_Store
+
+html_node_list.txt
 
 # Distribution / packaging
 .Python
