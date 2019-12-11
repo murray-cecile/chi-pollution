@@ -11,7 +11,6 @@ const hostname = '127.0.0.1';
 const port = 3686;
 // const BigIntBuffer = require('bigint-buffer');
 
-
 /* Commented out lines are for running on our cluster */
 var client = hbase({
     zookeeperHosts: ["mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:2181"],
@@ -54,8 +53,8 @@ app.get('/node-selection.html',function (req, res) {
 	// console.log(node_id);
 	    
 	function avg_noise() {
-	    var db_sum = readDoubleBE(row.cols["db:db_sum"].value); 
-		var db_ct = readIntBE(row.cols["db:db_ct"].value);
+	    var db_sum = row.cols["db:db_sum"].value; 
+		var db_ct = row.cols["db:db_ct"].value;
 		console.log(db_sum);
 		console.log(db_ct);
 	    if(db_ct == 0)
@@ -68,7 +67,7 @@ app.get('/node-selection.html',function (req, res) {
 		avg_daily_noise : avg_noise(),
 		num_noise_complaints: row.cols["complaints:noise_complaint"].value,
 		avg_aq : " - ",
-		air_pullution_orders: row.cols["complains:air_pollution"].value
+		air_pullution_orders: row.cols["complaints:air_pollution"].value
 	});
 	res.send(html);
     });
