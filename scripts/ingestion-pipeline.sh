@@ -46,6 +46,15 @@ hive -f scripts/create_noise_hbase.hql
 #========================#
 
 # create virtual environment for Python package installation
-python3 -mvenv chi-pollution
-source ./chi-pollution/bin/activate
-pip install requirements.txt
+python3 -mvenv venv
+source ./venv/bin/activate
+pip install -r requirements.txt
+
+# create a Kafka topic 
+/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:2181 --replication-factor 1 --partitions 1 --topic cmmurray
+
+# send some messages
+/usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:6667 --topic cmmurray
+
+# consume messages from another terminal 
+/usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --bootstrap-server mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:6667 --topic cmmurray --from-beginning

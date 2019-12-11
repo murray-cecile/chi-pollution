@@ -1,4 +1,4 @@
-import time
+import json
 import requests
 from kafka import KafkaProducer
 
@@ -27,7 +27,7 @@ def define_request():
 def parse_response(r):
     '''
     Takes: request
-    Returns: parsed data in list of tuples
+    Returns: parsed data in list of dicts
     '''
 
     rj = r.json()
@@ -36,12 +36,12 @@ def parse_response(r):
 
     for n in rj['data']:
 
-        node_vsn = n['node_vsn']
-        timestamp = n['timestamp']
-        sensor = n['sensor_path']
-        value = n['value']
+        message = {'node_vsn': n['node_vsn'],
+                    'timestamp' : n['timestamp'],
+                    'sensor' : n['sensor_path'],
+                    'value' : n['value']}
 
-        parsed.append([node_vsn, timestamp, sensor, value])
+        parsed.append(message)
     
     return parsed
 
@@ -58,7 +58,8 @@ def create_kafka_producer():
     producer = None
 
     try:
-        producer = KafkaProducer(bootstrap_servers=KAFKA_HOST)
+        producer = KafkaProducer(bootstrap_servers=KAFKA_HOST, \
+                                value_serializer=lambda m: json.dumps(m).encode('ascii'))
     except Exception as ex:
         print("Exception creating Kafka producer")
         print(str(ex))
@@ -77,7 +78,7 @@ def send_message(producer, message):
 
     try:
         print(message)
-        producer.send(KAFKA_TOPIC, key="key", value = message)
+        producer.send(KAFKA_TOPIC, value = message)
         producer.flush()
         print("Successful publish")
     except Exception as ex:
@@ -92,8 +93,8 @@ if __name__ == "__main__":
 
     producer = create_kafka_producer()
     producer.send('cmmurray', b'please work')
-    producer.flush()
-    # producer.send(KAFKA_TOPIC, key=b'foobar', value=b'test')
-    #for p in parsed:
-    #    send_message(producer, p)
+    
+    for p in parsed:
+       send_message(producer, p)
 
+    producer.flush()
