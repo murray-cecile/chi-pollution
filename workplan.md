@@ -12,10 +12,11 @@
 - DONE noise_pollution: average decibels, complete
 - DONE complaints: key is node, holds counts of complaints by type
 - DONE nodes: just map the node_id to an address
-- air_pollution: ?
+    - TO DO: add the field with the node_vsn
 
 #### Speed layer
-- need to write Python script to query API and put results in Kafka
+- write Python script to query API and put results in Kafka
+    - how do I get it to run every X number of minutes?
 - need to write Scala scripts to listen to Kafka and put results in an HBase table
 - current status + aggregate of last 24 hours or something?
 
@@ -29,5 +30,5 @@
 
 1. Build a speed layer
 2. Build a drop down menu for the nodes
-3. Fix complaints: avoid the cross join, look at complaints, drop some fields from hbase
-4. Figure out about air pollution (probably compute some index in Scala)
+3. Oozie for job management
+4. Fix complaints: pull from Socrata API, avoid the cross join, look at complaints, drop some fields from hbase

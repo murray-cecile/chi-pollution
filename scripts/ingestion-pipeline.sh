@@ -28,12 +28,17 @@ spark-shell --conf spark.hadoop.metastore.catalog.default=hive
 
 # create HBase tables
 hbase shell
+
+# maybe don't need these after all?
 create 'cmmurray_hbase_node_names', 'info'
 create 'cmmurray_hbase_node_complaints', 'complaints'
 create 'cmmurray_hbase_noise', 'db'
-# TO DO: create air pollutant hbase table?
+
 
 create 'cmmurray_hbase_master', 'info', 'db', 'complaints'
+
+# speed layer
+create 'cmmurray_hbase_latest_noise', 'db'
 exit
 
 # move data from Hive into Hbase
@@ -54,7 +59,7 @@ pip install -r requirements.txt
 /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:2181 --replication-factor 1 --partitions 1 --topic cmmurray
 
 # send some messages
-/usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:6667 --topic cmmurray
+# /usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:6667 --topic cmmurray
 
 # consume messages from another terminal 
-/usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --bootstrap-server mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:6667 --topic cmmurray --from-beginning
+# /usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --bootstrap-server mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:6667 --topic cmmurray --from-beginning

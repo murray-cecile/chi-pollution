@@ -92,7 +92,7 @@ if __name__ == "__main__":
     parsed = parse_response(r)
 
     producer = create_kafka_producer()
-    producer.send('cmmurray', {'key':'test'})
+    # producer.send('cmmurray', {'key':'test'})
     
     for p in parsed:
        send_message(producer, p)
