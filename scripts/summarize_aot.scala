@@ -1,21 +1,6 @@
 import org.apache.spark.sql.SaveMode
 
 
-// https://www.health.nsw.gov.au/environment/air/Pages/common-air-pollutants.aspx
-val no2_sum = spark.sql(
-    """
-    SELECT node_id, 
-    SUM(value_hrf) AS no2_sum,
-    COUNT(value_hrf) AS no2_ct
-    FROM cmmurray_sensor_csv
-    WHERE sensor = "no2" AND
-    value_hrf > 0
-    GROUP BY node_id
-    """
-)
-
-no2_sum.write.mode(SaveMode.Overwrite).saveAsTable("cmmurray_no2_sum")
-
 val noise_sum = spark.sql(
     """
     select node_id,

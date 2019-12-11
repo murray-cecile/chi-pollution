@@ -40,3 +40,12 @@ exit
 hive -f scripts/create_node_names_hbase.hql
 hive -f scripts/create_complaints_hbase.hql
 hive -f scripts/create_noise_hbase.hql
+
+#========================#
+# CREATE SPEED LAYER
+#========================#
+
+# create virtual environment for Python package installation
+python3 -mvenv chi-pollution
+source ./chi-pollution/bin/activate
+pip install requirements.txt
