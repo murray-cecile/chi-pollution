@@ -5,3 +5,64 @@
 *.pdf
 *.R
 .DS_Store
+
+# Distribution / packaging
+.Python
+chi-pollution/
+venv/
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+###OSX###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+
+*.p
+Figs/*
+FigureScripts/*
+*/.ipynb_checkpoints/*
+
+.vscode
+
+# data files
+*.geojson
+
+# api keys
+keys.json
+keys.yaml
