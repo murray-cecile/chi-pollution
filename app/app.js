@@ -62,8 +62,7 @@ app.get('/node-selection.html',function (req, res) {
 	function avg_noise() {
 	    var db_sum = row.cols["db:db_sum"].value; 
 		var db_ct = row.cols["db:db_ct"].value;
-		console.log(db_sum);
-		console.log(db_ct);
+
 	    if(db_ct == 0)
 		return " - ";
 	    return (db_sum/db_ct).toFixed(1); /* One decimal place */
@@ -74,26 +73,26 @@ app.get('/node-selection.html',function (req, res) {
 	html_data['num_noise_complaints'] = row.cols["complaints:noise_complaint"].value
 	});
 
-	// query the current table
-	const speed_get = new hbase.Get("07A");
+	// // query the current table
+	// const speed_get = new hbase.Get("07A");
 
-	console.log(speed_get);
+	// console.log(speed_get);
 
-	client.get("cmmurray_hbase_node_names", speed_get, function(err, row) {
-		assert.ok(!err, console.log(err));
-		console.log("we got to 82 but idk how js works");
-		if(!row){
-			console.log("no row found");
-			// res.send("<html><body>No such node in data</body></html>");
-			return;
-		}
+	// client.get("cmmurray_hbase_node_names", speed_get, function(err, row) {
+	// 	assert.ok(!err, console.log(err));
+	// 	console.log("we got to 82 but idk how js works");
+	// 	if(!row){
+	// 		console.log("no row found");
+	// 		// res.send("<html><body>No such node in data</body></html>");
+	// 		return;
+	// 	}
 
-	// console.log(row.cols);
+	// // console.log(row.cols);
 
-	// query this table for recent noise level
-	html_data['current_db'] = row.cols['value'].value;
+	// // query this table for recent noise level
+	// html_data['current_db'] = row.cols['value'].value;
 
-	});
+	// });
 
 	var template = filesystem.readFileSync("noise-result.mustache").toString();
 	var html = mustache.render(template, html_data)
