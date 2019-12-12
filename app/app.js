@@ -6,7 +6,7 @@ const mustache = require('mustache');
 const filesystem = require('fs');
 const hbase = require('hbase-rpc-client');
 const hostname = '127.0.0.1';
-const port = 3686;
+const port = 3868;
 const BigIntBuffer = require('bigint-buffer');
 
 var client = hbase({
