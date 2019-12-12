@@ -62,7 +62,7 @@ app.get('/node-selection.html',function (req, res) {
 		last_seen : " - "
 	};
 
-        // console.log(row.cols);
+	console.log(row.cols["db:db_max"]);
 
 	// now set the values of the html response above
 	html_data['avg_daily_noise'] = avg_noise();
@@ -70,7 +70,7 @@ app.get('/node-selection.html',function (req, res) {
 	html_data['num_noise_complaints'] = row.cols["complaints:noise_complaint"].value;
 	
 	if(typeof row.cols["speed:last_seen"] !== "undefined" ) {
-		html_data['last_seen'] =  Date(row.cols["speed:last_seen"].value).toLocaleDateString('en-US',{timezone: 'America/Chicago' });
+		html_data['last_seen'] =  Date(row.cols["speed:last_seen"].value).toLocaleDateString('en-US', { timeZone: 'America/Chicago' });
 		html_data['current_db'] = Number(BigIntBuffer.toBigIntBE(row.cols["speed:current_db"].value));
 	};
 
