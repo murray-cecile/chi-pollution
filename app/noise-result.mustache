@@ -6,12 +6,18 @@
   </head>
   <body>
     <div style="margin-left:auto;margin-right:auto;display:inline-block;border:1px solid #000000;background:white;font:sans-serif">
-      Data about this node
+      The table below presents data on noise levels at the selected node in the Chicago Array of Things (AoT) and the number of noise complaints made within a kilometer of that node. 
     </div>
     <p style="bottom-margin:10px">
-      <table class="CSS_Table_Example" style="width:60%;margin:auto;">
-        <tr><td>Average Daily Noise (DB)</td><td>Noise Complaints (1km)</td><td>Last Data Received At</td><<td>Current Noise (DB)</td></tr>
+      <table class="CSS_Table_Example" style="width:65%;margin:auto;">
+        <tr><td> 2019 Average Daily Noise (DB)</td><td>Number of Nearby Noise Complaints (1km)</td><td>Last Data Received At</td><<td>Current Noise (DB)</td></tr>
         <tr><td>{{avg_daily_noise}}</td><td>{{num_noise_complaints}}</td><td>{{last_seen}}</td><td>{{current_db}}</td></tr>
     </table>
+    </p>
+    <p>
+    <div class="attribution-text"> AoT historical data cover January to September 2019. Noise complaint data come from the Chicago Department of Public Health, covering January 1993 to December 4, 2019: https://data.cityofchicago.org/Environment-Sustainable-Development/CDPH-Environmental-Complaints/fypr-ksnz. 
+    <br/>
+    <div class="attribution-text">Author: Cecile Murray</div>
+    </div>
     </p>
 </body></html>
