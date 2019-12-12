@@ -66,11 +66,11 @@ app.get('/node-selection.html',function (req, res) {
 	    if(db_ct == 0)
 		return " - ";
 	    return (db_sum/db_ct).toFixed(1); /* One decimal place */
-	}
+	};
 
 	// now set the values of the html response above
-	html_data['avg_daily_noise'] = avg_noise(),
-	html_data['num_noise_complaints'] = row.cols["complaints:noise_complaint"].value
+	html_data['avg_daily_noise'] = avg_noise();
+	html_data['num_noise_complaints'] = row.cols["complaints:noise_complaint"].value;
 	});
 
 	// // query the current table
