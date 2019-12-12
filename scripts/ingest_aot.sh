@@ -30,11 +30,11 @@ do
     cd chicago-complete.monthly.$first_day-to-$last_day;
     mv data.csv.gz data-starting-$first_day.csv.gz;
     ls;
-    cd ..;
     rm *.tar;
 
     echo "putting data in HDFS...";
-    hdfs dfs -put aot_data/chicago-complete.monthly.$first_day-to-$last_day/data-starting-$first_day.csv.gz /inputs/cmmurray/aot;
+    hdfs dfs -put data-starting-$first_day.csv.gz /inputs/cmmurray/aot;
+    cd ..;
 
     echo "deleting data on disk...";
     rm -r chicago-complete.monthly.$first_day-to-$last_day;

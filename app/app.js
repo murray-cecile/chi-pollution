@@ -77,15 +77,18 @@ app.get('/node-selection.html',function (req, res) {
 	// query the current table
 	const speed_get = new hbase.Get("07A");
 
+	console.log(speed_get);
+
 	client.get("cmmurray_hbase_node_names", speed_get, function(err, row) {
 		assert.ok(!err, console.log(err));
+		console.log("we got to 82 but idk how js works");
 		if(!row){
 			console.log("no row found");
 			// res.send("<html><body>No such node in data</body></html>");
 			return;
 		}
 
-	console.log(row.cols);
+	// console.log(row.cols);
 
 	// query this table for recent noise level
 	html_data['current_db'] = row.cols['value'].value;
