@@ -5,11 +5,14 @@
     <link type="text/css" rel="stylesheet" href="table.css" />
   </head>
   <body>
-    <div style="margin-left:auto;margin-right:auto;display:inline-block;border:1px solid #000000;font:sans-serif;font-color: #FFFFFF">
+    <div class="descriptive-text">
       The table below presents data on noise levels at the selected node in the Chicago Array of Things (AoT) and the number of noise complaints made within a kilometer of that node. 
+      <br/>
+      <br/>
+      For comparison, a soft whisper would measure about 30 decibles, and normal conversation volume is about 60 decibels. On the louder end, the sound of vacuum cleaner running is about 75 decibels, and a chainsaw running is about 105-115 decibels.
     </div>
     <p style="bottom-margin:10px">
-      <table class="CSS_Table_Example" style="width:65%;margin:auto;">
+      <table class="CSS_Table_Example" style="width:80%;margin:auto;">
         <tr><td> 2019 Average Daily Noise (DB)</td><td>Number of Nearby Noise Complaints (1km)</td><td>Last Data Received At</td><<td>Current Noise (DB)</td></tr>
         <tr><td>{{avg_daily_noise}}</td><td>{{num_noise_complaints}}</td><td>{{last_seen}}</td><td>{{current_db}}</td></tr>
     </table>

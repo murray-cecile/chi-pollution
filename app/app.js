@@ -49,6 +49,10 @@ app.get('/node-selection.html',function (req, res) {
 	console.log(node_vsn);
 	    
 	function avg_noise() {
+		if(typeof row.cols["db:dbsum"] == "undefined") {
+			return " - ";
+		}
+
 	    var db_sum = row.cols["db:db_sum"].value; 
 		var db_ct = row.cols["db:db_ct"].value;
 
@@ -65,13 +69,13 @@ app.get('/node-selection.html',function (req, res) {
 		last_seen : " - "
 	};
 
-        console.log(row.cols);
+        // console.log(row.cols);
 
 	// now set the values of the html response above
 	html_data['avg_daily_noise'] = avg_noise();
 	html_data['num_noise_complaints'] = row.cols["complaints:noise_complaint"].value;
 	
-	if(typeof row.cols["speed:last_seen"].value !== "undefined" ) {
+	if(typeof row.cols["speed:last_seen"] !== "undefined" ) {
 		html_data['last_seen'] =  Date(row.cols["speed:last_seen"].value).toLocaleString('en-US','America/Chicago');
 		html_data['current_db'] = Number(BigIntBuffer.toBigIntBE(row.cols["speed:current_db"].value));
 	};
