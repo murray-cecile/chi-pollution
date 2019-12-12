@@ -26,10 +26,18 @@ do
     
     echo "untarring..."
     tar -xf chicago-complete.monthly.$first_day-to-$last_day.tar
+    cd chicago-complete.monthly.$first_day-to-$last_day
+    mv data.csv.gz data-starting-$first_day.csv.gz
+    cd ..
     rm *.tar
 
     echo "putting data in HDFS..."
-    hdfs dfs -put aot_data/chicago-complete.monthly.$first_day-to-$last_day/data.csv.gz /inputs/cmmurray/aot
+    hdfs dfs -put aot_data/chicago-complete.monthly.$first_day-to-$last_day/data-starting-$first_day.csv.gz /inputs/cmmurray/aot
+
+    echo "deleting data on disk..."
+    rm -r chicago-complete.monthly.$first_day-to-$last_day
+
+    # reset the loop
     first_day=`date +"%Y-%m-%d" -d "$first_day + 1 month"`; 
     
 done

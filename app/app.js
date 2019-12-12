@@ -23,12 +23,21 @@ client.on('error', function(err) {
 
 app.use(express.static('public'));
 
+// populate drop down menu dynamically?
+
 app.get('/node-selection.html',function (req, res) { 
 
-
-	// add drop down menu approach!
 	console.log(req.query["address"]);	
 	const address = req.query["address"];
+
+	// to store the values for the form
+	var html_data = {
+		avg_daily_noise : " - ",
+		num_noise_complaints: " - ",
+		current_db : " - "
+	}
+
+	var node_vsn = ""
 
 	const get = new hbase.Get(address); 
 	
@@ -46,8 +55,9 @@ app.get('/node-selection.html',function (req, res) {
 		return(node_vsn)
 	}
 
-	// const node_vsn = get_node_id();
-	// console.log(node_vsn);
+	// set node id variable for next table
+	node_vsn = get_node_vsn();
+	console.log(node_vsn);
 	    
 	function avg_noise() {
 	    var db_sum = row.cols["db:db_sum"].value; 
@@ -59,13 +69,30 @@ app.get('/node-selection.html',function (req, res) {
 	    return (db_sum/db_ct).toFixed(1); /* One decimal place */
 	}
 
-	var template = filesystem.readFileSync("noise-result.mustache").toString();
-	var html = mustache.render(template,  {
-		avg_daily_noise : avg_noise(),
-		num_noise_complaints: row.cols["complaints:noise_complaint"].value
+	// now set the values of the html response above
+	html_data['avg_daily_noise'] = avg_noise(),
+	html_data['num_noise_complaints'] = row.cols["complaints:noise_complaint"].value
 	});
+
+	// query the current table
+	const speed_get = new hbase.get(node_vsn);
+
+	client.get("cmmurray_hbase_node_names", speed_get, function(err, row) {
+		assert.ok(!err, `get returned an error: #{err}`);
+		if(!row){
+			res.send("<html><body>No such node in data</body></html>");
+			return;
+		}
+
+	console.log(row.cols);
 	
+	// query this table for recent noise level
+	html_data['current_db'] = row.cols['value'].value;
+
 	});
+
+	var template = filesystem.readFileSync("noise-result.mustache").toString();
+	var html = mustache.render(template, html_data)
 	res.send(html);
 
 });
