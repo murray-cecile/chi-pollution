@@ -5,13 +5,12 @@ const express= require('express');
 const app = express();
 const mustache = require('mustache');
 const filesystem = require('fs');
-const url = require('url');
+// const url = require('url');
 const hbase = require('hbase-rpc-client');
 const hostname = '127.0.0.1';
 const port = 3686;
 // const BigIntBuffer = require('bigint-buffer');
 
-/* Commented out lines are for running on our cluster */
 var client = hbase({
     zookeeperHosts: ["mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:2181"],
     zookeeperRoot: "/hbase-unsecure"
@@ -23,21 +22,35 @@ client.on('error', function(err) {
 
 app.use(express.static('public'));
 
+// based on https://medium.com/@osiolabs/read-write-json-files-with-node-js-92d03cc82824
+fs.readFile('./node_addresses.json', 'utf8', (err, jsonString) => {
+    if (err) {
+        console.log("Error reading file from disk:", err)
+        return
+    }
+    try {
+        const nodes = JSON.parse(jsonString)
+        console.log("nodes") 
+} catch(err) {
+        console.log('Error parsing JSON string:', err)
+    }
+});
+
 // populate drop down menu dynamically?
+var dropdown = document.getElementById('address-dropdown');
+var option = document.createElement("option");
+option1.text("Cottage Grove Ave & 115th St Chicago IL");
+dropdown.add(option);
+option2.text("State St & Washington St Chicago IL";)
+dropdown.add(option);
 
 app.get('/node-selection.html',function (req, res) { 
 
 	console.log(req.query["address"]);	
 	const address = req.query["address"];
 
-	// to store the values for the form
-	var html_data = {
-		avg_daily_noise : " - ",
-		num_noise_complaints: " - ",
-		current_db : " - "
-	}
-
-	var node_vsn = ""
+	
+	var node_vsn = "";
 
 	const get = new hbase.Get(address); 
 	
@@ -68,14 +81,25 @@ app.get('/node-selection.html',function (req, res) {
 	    return (db_sum/db_ct).toFixed(1); /* One decimal place */
 	};
 
+	// to store the values for the form
+	var html_data = {
+		avg_daily_noise : " - ",
+		num_noise_complaints: " - ",
+		current_db : " - "
+	};
+
+
 	// now set the values of the html response above
 	html_data['avg_daily_noise'] = avg_noise();
 	html_data['num_noise_complaints'] = row.cols["complaints:noise_complaint"].value;
+
+	var template = filesystem.readFileSync("noise-result.mustache").toString();
+	var html = mustache.render(template, html_data)
+	res.send(html);
 	});
 
-	// // query the current table
+	// query the current table
 	// const speed_get = new hbase.Get("07A");
-
 	// console.log(speed_get);
 
 	// client.get("cmmurray_hbase_node_names", speed_get, function(err, row) {
@@ -83,7 +107,7 @@ app.get('/node-selection.html',function (req, res) {
 	// 	console.log("we got to 82 but idk how js works");
 	// 	if(!row){
 	// 		console.log("no row found");
-	// 		// res.send("<html><body>No such node in data</body></html>");
+	// 		res.send("<html><body>No such node in data</body></html>");
 	// 		return;
 	// 	}
 
@@ -94,9 +118,7 @@ app.get('/node-selection.html',function (req, res) {
 
 	// });
 
-	var template = filesystem.readFileSync("noise-result.mustache").toString();
-	var html = mustache.render(template, html_data)
-	res.send(html);
+	
 
 });
 

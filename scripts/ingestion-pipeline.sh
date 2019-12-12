@@ -21,8 +21,10 @@ hive -f scripts/hive_complaints.hql
 # CREATE SERVING LAYER
 #========================#
 
-# NEED TO CALL SCALA SCRIPT FROM THE COMMAND LINE
+# FIGURE OUT HOW TO CALL SCALA SCRIPT FROM THE COMMAND LINE
 spark-shell --conf spark.hadoop.metastore.catalog.default=hive
+
+# spark-submit scripts/summarize_aot.scala --conf spark.hadoop.metastore.catalog.default=hive
 # CALL join_complaints_nodes.scala
 # CALL aot scala script
 
