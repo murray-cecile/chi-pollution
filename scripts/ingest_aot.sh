@@ -19,8 +19,17 @@ end=`date +"%Y-%m-%d" -d "09/01/2019"`
 while [ "$now" != "$end" ] ;
 do 
     last_day=`date +"%Y-%m-%d" -d "$first_day + 1 month - 1 day"`; 
+    
+    echo "beginning download:"
     echo  https://s3.amazonaws.com/aot-tarballs/chicago-complete.monthly.$first_day-to-$last-day.tar;
     wget  https://s3.amazonaws.com/aot-tarballs/chicago-complete.monthly.$first_day-to-$last-day.tar;
+    
+    echo "untarring..."
+    tar -xf chicago-complete.monthly.$first_day-to-$last_day.tar
+    rm *.tar
+
+    echo "putting data in HDFS..."
+    hdfs dfs -put aot_data/chicago-complete.monthly.$first_day-to-$last_day/data.csv.gz /inputs/cmmurray/aot
     first_day=`date +"%Y-%m-%d" -d "$first_day + 1 month"`; 
-    # echo $last_day
+    
 done
