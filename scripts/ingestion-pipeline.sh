@@ -1,5 +1,10 @@
 # ingestion pipeline
 
+# create virtual environment for Python package installation
+python3 -mvenv venv
+source ./venv/bin/activate
+pip install -r requirements.txt
+
 # create some directories in hdfs
 hdfs dfs -mkdir /inputs/cmmurray
 hdfs dfs -mkdir /inputs/cmmurray/aot
@@ -46,10 +51,7 @@ hive -f scripts/create_master_hbase.hql
 # CREATE SPEED LAYER
 #========================#
 
-# create virtual environment for Python package installation
-python3 -mvenv venv
-source ./venv/bin/activate
-pip install -r requirements.txt
+
 
 # create a Kafka topic 
 /usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:2181 --replication-factor 1 --partitions 1 --topic cmmurray
@@ -63,8 +65,7 @@ pip install -r requirements.txt
 # moving jar file manually right now, should zip the thing later probably
 gcloud compute scp aot-speed-layer/target/uber-aot-speed-layer-0.0.1-SNAPSHOT.jar cmmurray@mpcs53014c10-m-6-20191016152730:chi-pollution
 
-# test consumption from Kafka
-spark-submit --class StreamNoise uber-aot-speed-layer-0.0.1-SNAPSHOT.jar mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:6667
+
 
 # idea: keep two hbase tables for speed, one for even hours and one for odd
 # then query from the other one from the app!
