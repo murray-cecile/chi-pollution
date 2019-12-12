@@ -1,5 +1,3 @@
-# !usr/bin/bash
-
 cd ~/chi-pollution/aot_data
 
 # recent tiny slice of dataset
@@ -10,7 +8,6 @@ cd ~/chi-pollution/aot_data
 # tar -xf chicago-complete.monthly.2019-09-01-to-2019-09-30.tar
 # rm *.tar
 # mv chicago-complete.monthly.2019-09-01-to-2019-09-30 chicago-2019-09
-
 
 # get all the data in 2019
 first_day=`date +"%Y-%m-%d" -d "01/01/2019"` 
@@ -27,10 +24,10 @@ do
     
     echo "untarring...";
     tar -xf chicago-complete.monthly.$first_day-to-$last_day.tar;
+    rm *.tar;
     cd chicago-complete.monthly.$first_day-to-$last_day;
     mv data.csv.gz data-starting-$first_day.csv.gz;
     ls;
-    rm *.tar;
 
     echo "putting data in HDFS...";
     hdfs dfs -put data-starting-$first_day.csv.gz /inputs/cmmurray/aot;

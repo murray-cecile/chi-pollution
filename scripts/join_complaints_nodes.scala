@@ -17,9 +17,8 @@ val clean_complaints = spark.sql(
 
 clean_complaints.write.mode(SaveMode.Overwrite).saveAsTable("cmmurray_clean_complaints")
 
-// join complaints to nodes within 1km
-// HORRIBLE EXPENSIVE CROSS JOIN, SORRY
-// https://www.usna.edu/Users/oceano/pguth/md_help/html/approx_equivalents.htm
+// join complaints to nodes within 1km (EXPENSIVE CROSS JOIN, SORRY)
+// approx degrees to km https://www.usna.edu/Users/oceano/pguth/md_help/html/approx_equivalents.htm
 val node_complaints = spark.sql(
 """
 WITH nodes AS 
