@@ -23,7 +23,7 @@ client.on('error', function(err) {
 app.use(express.static('public'));
 
 // based on https://medium.com/@osiolabs/read-write-json-files-with-node-js-92d03cc82824
-filesystem.readFile('./node_addresses.json', 'utf8', (err, jsonString) => {
+filesystem.readFile('node_addresses.json', 'utf8', (err, jsonString) => {
     if (err) {
         console.log("Error reading file from disk:", err)
         return
@@ -37,8 +37,8 @@ filesystem.readFile('./node_addresses.json', 'utf8', (err, jsonString) => {
 });
 
 // populate drop down menu dynamically?
-var dropdown = document.getElementById('address-dropdown');
-var option = document.createElement("option");
+var dropdown = app.getElementById('address-dropdown');
+var option = app.createElement("option");
 option1.text("Cottage Grove Ave & 115th St Chicago IL");
 dropdown.add(option);
 option2.text("State St & Washington St Chicago IL");
