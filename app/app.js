@@ -1,5 +1,5 @@
 'use strict';
-const http = require('http');
+// const http = require('http');
 var assert = require('assert');
 const express= require('express');
 const app = express();
@@ -27,10 +27,9 @@ app.get('/node-selection.html',function (req, res) {
 
 
 	// add drop down menu approach!
-	console.log(req.query["address"]);
-	// const route=req.query['origin'] + req.query['dest'];
-	
+	console.log(req.query["address"]);	
 	const address = req.query["address"];
+
 	const get = new hbase.Get(address); 
 	
     client.get("cmmurray_hbase_master", get, function(err, row) {
@@ -40,17 +39,15 @@ app.get('/node-selection.html',function (req, res) {
 	    return;
 	}
 
-	// console.log(row);
+	function get_node_vsn() {
+		var node_vsn = row.cols["info:node_vsn"].value.toString();
+		if(node_vsn == "")
+		return " - ";
+		return(node_vsn)
+	}
 
-	// function get_node_id() {
-	// 	var node_id = row.cols["info:node_id"].value.toString();
-	// 	if(node_id == "")
-	// 	return " - ";
-	// 	return(node_id)
-	// }
-
-	// const node_id = get_node_id();
-	// console.log(node_id);
+	// const node_vsn = get_node_id();
+	// console.log(node_vsn);
 	    
 	function avg_noise() {
 	    var db_sum = row.cols["db:db_sum"].value; 
@@ -68,42 +65,9 @@ app.get('/node-selection.html',function (req, res) {
 		num_noise_complaints: row.cols["complaints:noise_complaint"].value
 	});
 	res.send(html);
-    });
-});
+	});
 	
-/* Send simulated weather to kafka */
-// var kafka = require('kafka-node');
-// var Producer = kafka.Producer;
-// var KeyedMessage = kafka.KeyedMessage;
-// var kafkaClient = new kafka.KafkaClient({kafkaHost: 'mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:6667'});
-// var kafkaProducer = new Producer(kafkaClient);
 
-
-// app.get('/weather.html',function (req, res) {
-//     var station_val = req.query['station'];
-//     var fog_val = (req.query['fog']) ? true : false;
-//     var rain_val = (req.query['rain']) ? true : false;
-//     var snow_val = (req.query['snow']) ? true : false;
-//     var hail_val = (req.query['hail']) ? true : false;
-//     var thunder_val = (req.query['thunder']) ? true : false;
-//     var tornado_val = (req.query['tornado']) ? true : false;
-//     var report = {
-// 	station : station_val,
-// 	clear : !fog_val && !rain_val && !snow_val && !hail_val && !thunder_val && !tornado_val,
-// 	fog : fog_val,
-// 	rain : rain_val,
-// 	snow : snow_val,
-// 	hail : hail_val,
-// 	thunder : thunder_val,
-// 	tornado : tornado_val
-//     };
-
-//     kafkaProducer.send([{ topic: 'weather-reports', messages: JSON.stringify(report)}],
-// 			   function (err, data) {
-// 			       console.log(data);
-// 			   });
-//     console.log(report);
-//     res.redirect('submit-weather.html');
-// });
+});
 
 app.listen(port);

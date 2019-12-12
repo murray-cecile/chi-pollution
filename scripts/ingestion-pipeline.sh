@@ -34,11 +34,12 @@ create 'cmmurray_hbase_node_names', 'info'
 create 'cmmurray_hbase_node_complaints', 'complaints'
 create 'cmmurray_hbase_noise', 'db'
 
-
+# one table to rule them all
 create 'cmmurray_hbase_master', 'info', 'db', 'complaints'
 
-# speed layer
-create 'cmmurray_hbase_latest_noise', 'db'
+# speed layer tables
+create 'cmmurray_hbase_latest_noise_even', 'db'
+create 'cmmurray_hbase_latest_noise_odd', 'db'
 exit
 
 # move data from Hive into Hbase
@@ -69,3 +70,6 @@ gcloud compute scp aot-speed-layer/target/uber-aot-speed-layer-0.0.1-SNAPSHOT.ja
 
 # test consumption from Kafka
 spark-submit --class StreamNoise uber-aot-speed-layer-0.0.1-SNAPSHOT.jar mpcs53014c10-m-6-20191016152730.us-central1-a.c.mpcs53014-2019.internal:6667
+
+# idea: keep two hbase tables for speed, one for even hours and one for odd
+# then query from the other one from the app!
