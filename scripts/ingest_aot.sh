@@ -21,8 +21,8 @@ while [ "$now" != "$end" ] ;
 do 
     
     echo "beginning download for "$first_day " to " $last_day;
-    echo  https://s3.amazonaws.com/aot-tarballs/chicago-complete.monthly.$first_day-to-$last-day.tar;
-    wget  https://s3.amazonaws.com/aot-tarballs/chicago-complete.monthly.$first_day-to-$last-day.tar;
+    echo  https://s3.amazonaws.com/aot-tarballs/chicago-complete.monthly.$first_day-to-$last_day.tar;
+    wget  https://s3.amazonaws.com/aot-tarballs/chicago-complete.monthly.$first_day-to-$last_day.tar;
     
     echo "untarring...";
     tar -xf chicago-complete.monthly.$first_day-to-$last_day.tar;
