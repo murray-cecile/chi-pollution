@@ -36,15 +36,15 @@ filesystem.readFile('node_addresses.json', 'utf8', (err, jsonString) => {
     }
 });
 
-// populate drop down menu dynamically?
-var dropdown = app.getElementById('address-dropdown');
-var option = app.createElement("option");
-option1.text("Cottage Grove Ave & 115th St Chicago IL");
-dropdown.add(option);
-option2.text("State St & Washington St Chicago IL");
-dropdown.add(option);
-
 app.get('/node-selection.html',function (req, res) { 
+
+	// // populate drop down menu dynamically?
+	// var dropdown = app.getElementById('address-dropdown');
+	// var option = app.createElement("option");
+	// option1.text("Cottage Grove Ave & 115th St Chicago IL");
+	// dropdown.add(option);
+	// option2.text("State St & Washington St Chicago IL");
+	// dropdown.add(option);
 
 	console.log(req.query["address"]);	
 	const address = req.query["address"];

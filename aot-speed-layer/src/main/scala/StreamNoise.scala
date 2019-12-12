@@ -25,7 +25,7 @@ object StreamNoise {
   //  hbaseConf.set("hbase.zookeeper.quorum", "localhost")
   
   val hbaseConnection = ConnectionFactory.createConnection(hbaseConf)
-  val latestNoise = hbaseConnection.getTable(TableName.valueOf("cmmurray_hbase_latest_noise"))
+  val masterTable = hbaseConnection.getTable(TableName.valueOf("cmmurray_hbase_master"))
   
   
   
@@ -33,12 +33,12 @@ object StreamNoise {
     // create put
     val put = new Put(Bytes.toBytes(knr.node_vsn))
     // add data
-    val cfByte = Bytes.toBytes("db") 
+    val cfByte = Bytes.toBytes("current") 
     put.add(cfByte, Bytes.toBytes("timestamp"), Bytes.toBytes(knr.timestamp))
     put.add(cfByte, Bytes.toBytes("sensor"), Bytes.toBytes(knr.sensor))
     put.add(cfByte, Bytes.toBytes("value"), Bytes.toBytes(knr.value))
     latestNoise.put(put)
-    return "Updated speed layer for node " + knr.node_vsn
+    return "Updated master table for node " + knr.node_vsn
 }
   
   def main(args: Array[String]) {
