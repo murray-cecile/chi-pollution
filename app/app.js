@@ -31,7 +31,7 @@ app.get('/node-selection.html',function (req, res) {
 
 	const get = new hbase.Get(address); 
 	
-    client.get("cmmurray_hbase_master", get, function(err, row) {
+    var html = client.get("cmmurray_hbase_master", get, function(err, row) {
 	assert.ok(!err, `get returned an error: #{err}`);
 	if(!row){
 	    res.send("<html><body>No such node in data</body></html>");
@@ -63,10 +63,9 @@ app.get('/node-selection.html',function (req, res) {
 		avg_daily_noise : avg_noise(),
 		num_noise_complaints: row.cols["complaints:noise_complaint"].value
 	});
-	res.send(html);
+	return(html);
 	});
-	
-
+	res.send(html);
 });
 
 app.listen(port);
