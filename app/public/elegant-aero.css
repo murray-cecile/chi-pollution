@@ -24,7 +24,8 @@
 }
 .elegant-aero label {
     display: block;
-    margin: 0px 0px 5px;
+    margin: 5px 5px 5px;
+    font:sans-serif;
 }
 .elegant-aero label>span {
     float: left;
@@ -39,9 +40,9 @@
     width: 90%;
     padding: 0px 0px 0px 5px;
     border: 1px solid #C5E2FF;
-    background: #FBFBFB;
+    background: #FBFBFBE6;
     outline: 0;
-    font: 200 12px/25px Arial, Helvetica, sans-serif;
+    font: 200 12px/25px sans-serif;
     height: 30px;
     line-height:15px;
     margin: 2px 6px 16px 0px;

@@ -25,9 +25,6 @@ app.get('/node-selection.html',function (req, res) {
 	console.log(req.query["address"]);	
 	const address = req.query["address"];
 
-	
-	var node_vsn = "";
-
 	const get = new hbase.Get(address); 
 	
     client.get("cmmurray_hbase_master", get, function(err, row) {
@@ -43,20 +40,15 @@ app.get('/node-selection.html',function (req, res) {
 		return " - ";
 		return(node_vsn)
 	}
-
-	// set node id variable for next table
-	node_vsn = get_node_vsn();
-	console.log(node_vsn);
 	    
 	function avg_noise() {
-		if(typeof row.cols["db:dbsum"] == "undefined") {
+		if(typeof row.cols["db:db_sum"] == "undefined") {
 			return " - ";
-		}
-
+		};
 	    var db_sum = row.cols["db:db_sum"].value; 
 		var db_ct = row.cols["db:db_ct"].value;
-
-	    if(db_ct == 0)
+		// don't try to divide by zero
+		if(db_ct == 0)
 		return " - ";
 	    return (db_sum/db_ct).toFixed(1); /* One decimal place */
 	};
