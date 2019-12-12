@@ -1,3 +1,4 @@
+import time
 import json
 import requests
 from kafka import KafkaProducer
@@ -14,7 +15,7 @@ def define_request():
 
     p = {'project': 'chicago',
         'sensor':'metsense.spv1840lr5h_b.intensity',
-        'size': 25}
+        'size': 200}
 
     r = requests.get(AOT_API_ROOT, params = p)
 
@@ -102,4 +103,5 @@ if __name__ == "__main__":
 
         producer.flush()
         
-        time.sleep(60)
+        # get new data every two minutes
+        time.sleep(60*2)

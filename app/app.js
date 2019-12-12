@@ -78,7 +78,7 @@ app.get('/node-selection.html',function (req, res) {
 	const speed_get = new hbase.Get(node_vsn);
 
 	client.get("cmmurray_hbase_node_names", speed_get, function(err, row) {
-		assert.ok(!err, `get returned an error: #{err}`);
+		assert.ok(!err, console.log(err));
 		if(!row){
 			res.send("<html><body>No such node in data</body></html>");
 			return;

@@ -1,6 +1,7 @@
 create table if not exists cmmurray_hbase_master (
     address string,
     node_id string,
+    node_vsn string,
     db_sum float,
     db_count int,
     db_max float,
@@ -25,6 +26,7 @@ TBLPROPERTIES ('hbase.table.name' = 'cmmurray_hbase_master');
 INSERT OVERWRITE TABLE cmmurray_hbase_master
 SELECT address,
     names.node_id,
+    names.node_vsn,
     db_sum,
     db_count,
     db_max,
