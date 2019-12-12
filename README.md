@@ -1,6 +1,8 @@
 ## README: Listening to the Chicago Array of Things 
 
-Final project for MPCS 53014: http://34.66.189.234:3686/aot-app.html
+Final project for MPCS 53014: http://34.66.189.234:3868/aot-app.html
+
+NOTE: the uber jar for the speed layer is on the cluster in /home/cmmurray/chi-pollution
 
 ### About the data
 
@@ -19,6 +21,8 @@ These instructions are designed for the class cluster environment, which has the
 First, download the Chicago Department of Public Health Environmental Complaints dataset from [here](https://data.cityofchicago.org/Environment-Sustainable-Development/CDPH-Environmental-Complaints/fypr-ksnz]) and put it in the complaints/ subdirectory. I downloaded the file on my local machine and moved it across using the command stored in `scripts/ingest-complaints.sh`.
 
 Subsequently, running the `ingestion-pipeline.sh` file in the scripts subdirectory will download the historical AoT data for January through September 2019 and put it in HDFS. It will also put the complaints data and node meta in HDFS.
+
+Thirdly, create the speed layer jar file from the aot-speed-layer files: in Eclipse, maven install.
 
 #### Create the batch layer
 
