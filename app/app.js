@@ -80,7 +80,8 @@ app.get('/node-selection.html',function (req, res) {
 	client.get("cmmurray_hbase_node_names", speed_get, function(err, row) {
 		assert.ok(!err, console.log(err));
 		if(!row){
-			res.send("<html><body>No such node in data</body></html>");
+			console.log("no row found");
+			// res.send("<html><body>No such node in data</body></html>");
 			return;
 		}
 

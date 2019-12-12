@@ -13,12 +13,13 @@ cd ~/chi-pollution/aot_data
 
 
 # get all the data in 2019
-first_day=`date +"%Y-%m-%d" -d "01/01/2019"`
-last_day=`date +"%Y-%m-%d" -d "$first_day + 1 month - 1 day"` 
+first_day=`date +"%Y-%m-%d" -d "01/01/2019"` 
 end=`date +"%Y-%m-%d" -d "09/01/2019"`
 
 while [ "$now" != "$end" ] ;
 do 
+
+    last_day=`date +"%Y-%m-%d" -d "$first_day + 1 month - 1 day"`;
     
     echo "beginning download for "$first_day " to " $last_day;
     echo  https://s3.amazonaws.com/aot-tarballs/chicago-complete.monthly.$first_day-to-$last_day.tar;
@@ -28,6 +29,7 @@ do
     tar -xf chicago-complete.monthly.$first_day-to-$last_day.tar;
     cd chicago-complete.monthly.$first_day-to-$last_day;
     mv data.csv.gz data-starting-$first_day.csv.gz;
+    ls;
     cd ..;
     rm *.tar;
 
