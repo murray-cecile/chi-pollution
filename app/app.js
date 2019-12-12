@@ -71,8 +71,8 @@ app.get('/node-selection.html',function (req, res) {
 	html_data['avg_daily_noise'] = avg_noise();
 	html_data['num_noise_complaints'] = row.cols["complaints:noise_complaint"].value;
 	
-	if(row.cols["speed:last_seen"]) {
-		html_data['last_seen'] =  Date(row.cols["speed:last_seen"].value);
+	if(typeof row.cols["speed:last_seen"].value !== "undefined" ) {
+		html_data['last_seen'] =  Date(row.cols["speed:last_seen"].value).toLocaleString('en-US','America/Chicago');
 		html_data['current_db'] = Number(BigIntBuffer.toBigIntBE(row.cols["speed:current_db"].value));
 	};
 
