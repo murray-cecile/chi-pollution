@@ -1,16 +1,18 @@
 # ingestion pipeline
 
+# create some directories in hdfs
+hdfs dfs -mkdir /inputs/cmmurray
+hdfs dfs -mkdir /inputs/cmmurray/aot
+hdfs dfs -mkdir /inputs/cmmurray/complaints
+hdfs dfs -mkdir /inputs/cmmurray/nodes
+
 # get the data
 sh scripts/ingest_aot.sh
 sh scripts/ingest_complaints.sh
 
-# put them in HDFS
-hdfs dfs -mkdir /inputs/cmmurray/aot
-hdfs dfs -mkdir /inputs/cmmurray/complaints
-hdfs dfs -mkdir /inputs/cmmurray/nodes
-hdfs dfs -put aot_data/chicago-2019-09/data.csv.gz /inputs/cmmurray/aot # change this!!
+# put complaints data in HDFS
 hdfs dfs -put aot_data/CDPH_Environmental_Complaints.csv /inputs/cmmurray/complaints/cdph_complaints.csv
-hdfs dfs -put aot_data/chicago-2019-09/nodes.csv /inputs/cmmurray/nodes
+hdfs dfs -put aot_data/chicago-2019-09/nodes.csv /inputs/cmmurray/nodes # THIS IS MISSING IN THE NEW APPROACH
 
 # put these data in Hive
 hive -f scripts/hive_sensor.hql
@@ -30,24 +32,15 @@ spark-shell --conf spark.hadoop.metastore.catalog.default=hive
 
 # create HBase tables
 hbase shell
-
-# maybe don't need these after all?
-create 'cmmurray_hbase_node_names', 'info'
-create 'cmmurray_hbase_node_complaints', 'complaints'
-create 'cmmurray_hbase_noise', 'db'
-
-# one table to rule them all
+create 'cmmurray_hbase_nodes', 'info'
 create 'cmmurray_hbase_master', 'info', 'db', 'complaints'
-
-# speed layer tables
-create 'cmmurray_hbase_latest_noise_even', 'db'
-create 'cmmurray_hbase_latest_noise_odd', 'db'
 exit
 
 # move data from Hive into Hbase
-hive -f scripts/create_node_names_hbase.hql
-hive -f scripts/create_complaints_hbase.hql
-hive -f scripts/create_noise_hbase.hql
+hive -f scripts/create_nodes_hbase.hql
+hive -f scripts/create_master_hbase.hql
+# hive -f scripts/create_complaints_hbase.hql
+# hive -f scripts/create_noise_hbase.hql
 
 #========================#
 # CREATE SPEED LAYER

@@ -9,6 +9,7 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.TableName
 import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.hadoop.hbase.client.ConnectionFactory
+import org.apache.hadoop.hbase.client.Get
 import org.apache.hadoop.hbase.client.Put
 import org.apache.hadoop.hbase.util.Bytes
 
@@ -25,20 +26,24 @@ object StreamNoise {
   //  hbaseConf.set("hbase.zookeeper.quorum", "localhost")
   
   val hbaseConnection = ConnectionFactory.createConnection(hbaseConf)
+  val nodeTable = hbaseConnection.getTable(TableName.valueOf("cmmurray_hbase_nodes")) 
   val masterTable = hbaseConnection.getTable(TableName.valueOf("cmmurray_hbase_master"))
   
-  
-  
   def putLatestNoise(knr : KafkaNoiseRecord) : String = {
+     
+    // get address from node lookup table
+    val node_info = nodeTable.get(new Get(Bytes.toBytes(knr.node_vsn)))
+    val address = Bytes.toString(node_info.getValue(Bytes.toBytes("info"), Bytes.toBytes("address")))
+    
     // create put
-    val put = new Put(Bytes.toBytes(knr.node_vsn))
+    val put = new Put(Bytes.toBytes(address))
     // add data
-    val cfByte = Bytes.toBytes("current") 
-    put.add(cfByte, Bytes.toBytes("timestamp"), Bytes.toBytes(knr.timestamp))
-    put.add(cfByte, Bytes.toBytes("sensor"), Bytes.toBytes(knr.sensor))
-    put.add(cfByte, Bytes.toBytes("value"), Bytes.toBytes(knr.value))
-    latestNoise.put(put)
-    return "Updated master table for node " + knr.node_vsn
+    val cfByte = Bytes.toBytes("speed") 
+    put.addColumn(cfByte, Bytes.toBytes("last_seen"), Bytes.toBytes(knr.timestamp))
+//    put.add(cfByte, Bytes.toBytes("sensor"), Bytes.toBytes(knr.sensor))
+    put.addColumn(cfByte, Bytes.toBytes("current_db"), Bytes.toBytes(knr.value))
+    masterTable.put(put)
+    return "Updated master table for node " + address
 }
   
   def main(args: Array[String]) {

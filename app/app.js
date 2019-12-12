@@ -85,13 +85,16 @@ app.get('/node-selection.html',function (req, res) {
 	var html_data = {
 		avg_daily_noise : " - ",
 		num_noise_complaints: " - ",
-		current_db : " - "
+		current_db : " - ",
+		last_seen : " - "
 	};
 
 
 	// now set the values of the html response above
 	html_data['avg_daily_noise'] = avg_noise();
 	html_data['num_noise_complaints'] = row.cols["complaints:noise_complaint"].value;
+	html_data["last_seen"] = row.cols["speed:last_seen"].value;
+	html_data['current_db'] = row.cols["speed:current_db"].value;
 
 	var template = filesystem.readFileSync("noise-result.mustache").toString();
 	var html = mustache.render(template, html_data)

@@ -1,8 +1,6 @@
 import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.functions.lower
 
-val complaints = spark.table("cmmurray_complaints")
-val nodes = spark.table("cmmurray_nodes")
 
 // filter out complaints with 0 latitude and longitude
 // set everything to standard case
@@ -19,7 +17,7 @@ clean_complaints.write.mode(SaveMode.Overwrite).saveAsTable("cmmurray_clean_comp
 
 // join complaints to nodes within 1km (EXPENSIVE CROSS JOIN, SORRY)
 // approx degrees to km https://www.usna.edu/Users/oceano/pguth/md_help/html/approx_equivalents.htm
-val node_complaints = spark.sql(
+val node_complaints_sum = spark.sql(
 """
 WITH nodes AS 
     (SELECT node_id, lat, lon 
@@ -51,6 +49,34 @@ GROUP BY node_id
 """
 )
 
-node_complaints.write.mode(SaveMode.Overwrite).saveAsTable("cmmurray_node_complaints")
+node_complaints_sum.write.mode(SaveMode.Overwrite).saveAsTable("cmmurray_node_complaints")
 
 
+// alternative version
+// val complaints_by_node = spark.sql(
+// """
+// WITH nodes AS 
+//     (SELECT node_id, lat, lon 
+//     FROM cmmurray_nodes),
+//     noise_complaints AS
+//     (SELECT complaint_id, complaint_date, complaint_type,
+//       complaint_detail, latitude, longitude 
+//     FROM cmmurray_clean_complaints
+//     WHERE complaint_type = "noise complaint"),
+//     distances AS
+//     (SELECT complaint_id, complaint_date, complaint_type, complaint_detail, 
+//      node_id, SQRT(POWER(latitude - lat, 2) + POWER(longitude - lon, 2)) as distance
+//     FROM noise_complaints 
+//     CROSS JOIN nodes)
+// SELECT node_id, complaint_date, complaint_detail
+// FROM distances
+// WHERE distance < 0.02
+// """
+// )
+
+// complaints_by_node.write.mode(SaveMode.Overwrite).saveAsTable("cmmurray_complaints_by_node")
+
+
+//  select node_id, count(complaint_detail) from cmmurray_complaints_by_node 
+//  where year(from_unixtime(unix_timestamp(complaint_date, "mm/dd/YYYY"))) = 2019
+//  group by node_id;
