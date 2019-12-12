@@ -40,7 +40,6 @@ object StreamNoise {
     // add data
     val cfByte = Bytes.toBytes("speed") 
     put.addColumn(cfByte, Bytes.toBytes("last_seen"), Bytes.toBytes(knr.timestamp))
-//    put.add(cfByte, Bytes.toBytes("sensor"), Bytes.toBytes(knr.sensor))
     put.addColumn(cfByte, Bytes.toBytes("current_db"), Bytes.toBytes(knr.value))
     masterTable.put(put)
     return "Updated master table for node " + address

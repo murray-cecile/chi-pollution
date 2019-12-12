@@ -56,6 +56,7 @@ app.get('/node-selection.html',function (req, res) {
 	// to store the values for the form
 	var html_data = {
 		avg_daily_noise : " - ",
+		db_max : " - ",
 		num_noise_complaints: " - ",
 		current_db : " - ",
 		last_seen : " - "
@@ -65,6 +66,7 @@ app.get('/node-selection.html',function (req, res) {
 
 	// now set the values of the html response above
 	html_data['avg_daily_noise'] = avg_noise();
+	html_data['db_max'] = row.cols["db:db_max"];
 	html_data['num_noise_complaints'] = row.cols["complaints:noise_complaint"].value;
 	
 	if(typeof row.cols["speed:last_seen"] !== "undefined" ) {
