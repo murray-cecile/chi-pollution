@@ -25,6 +25,8 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+node_modules/
+package-lock.json
 
 # Installer logs
 pip-log.txt

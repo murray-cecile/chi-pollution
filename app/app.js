@@ -25,7 +25,6 @@ app.use(express.static('public'));
 
 app.get('/node-selection.html',function (req, res) { 
 
-
 	// add drop down menu approach!
 	console.log(req.query["address"]);	
 	const address = req.query["address"];
