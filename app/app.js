@@ -66,11 +66,11 @@ app.get('/node-selection.html',function (req, res) {
 
 	// now set the values of the html response above
 	html_data['avg_daily_noise'] = avg_noise();
-	html_data['db_max'] = row.cols["db:db_max"];
+	html_data['db_max'] = row.cols["db:db_max"].value;
 	html_data['num_noise_complaints'] = row.cols["complaints:noise_complaint"].value;
 	
 	if(typeof row.cols["speed:last_seen"] !== "undefined" ) {
-		html_data['last_seen'] =  Date(row.cols["speed:last_seen"].value).toLocaleString('en-US','America/Chicago');
+		html_data['last_seen'] =  Date(row.cols["speed:last_seen"].value).toLocaleDateString('en-US',{timezone: 'America/Chicago' });
 		html_data['current_db'] = Number(BigIntBuffer.toBigIntBE(row.cols["speed:current_db"].value));
 	};
 

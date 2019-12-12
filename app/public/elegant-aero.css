@@ -79,5 +79,5 @@
 .elegant-aero .attribution-text{
     color: #FBFBFB;
     font: 12px sans-serif;
-    float: right;
+    display:block;
 }
