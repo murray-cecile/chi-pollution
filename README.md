@@ -1,6 +1,6 @@
 ## README: Listening to the Chicago Array of Things 
 
-Final project for MPCS 53014
+Final project for MPCS 53014: http://34.66.189.234:3686/aot-app.html
 
 ### About the data
 
@@ -70,6 +70,8 @@ hive -f scripts/create_master_hbase.hql
 ```
 
 #### Speed layer
+
+To run the speed layer, you need the aot-speed-layer Uber jar file. 
 
 The speed layer simply queries the AoT API endpoint for the latest measurements for the appropriate audio sensor. It updates two fields in the master table: one that holds the time at which the measurement was taken and one that holds the actual measurement.
 
