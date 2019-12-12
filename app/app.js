@@ -75,7 +75,7 @@ app.get('/node-selection.html',function (req, res) {
 	});
 
 	// query the current table
-	const speed_get = new hbase.get(node_vsn);
+	const speed_get = new hbase.Get(node_vsn);
 
 	client.get("cmmurray_hbase_node_names", speed_get, function(err, row) {
 		assert.ok(!err, `get returned an error: #{err}`);
@@ -85,7 +85,7 @@ app.get('/node-selection.html',function (req, res) {
 		}
 
 	console.log(row.cols);
-	
+
 	// query this table for recent noise level
 	html_data['current_db'] = row.cols['value'].value;
 

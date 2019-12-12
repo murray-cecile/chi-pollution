@@ -20,7 +20,7 @@ while [ "$now" != "$end" ] ;
 do 
     last_day=`date +"%Y-%m-%d" -d "$first_day + 1 month - 1 day"`; 
     
-    echo "beginning download:"
+    echo "beginning download for "$first_day
     echo  https://s3.amazonaws.com/aot-tarballs/chicago-complete.monthly.$first_day-to-$last-day.tar;
     wget  https://s3.amazonaws.com/aot-tarballs/chicago-complete.monthly.$first_day-to-$last-day.tar;
     
